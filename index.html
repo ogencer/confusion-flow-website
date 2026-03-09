@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confusion Flow — Visual Data Pipeline Builder</title>
+  <meta name="description" content="Drag, connect, and execute Python data pipelines visually. No code required to start — full pandas power when you need it.">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="icon" type="image/png" href="icon.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #FF6B35;
+      --accent-dim: #D4562B;
+      --accent-hover: #FF8C5A;
+      --gold: #F7C948;
+      --red: #E8453C;
+      --light-orange: #FFB347;
+      --salmon: #FF8C5A;
+      --bg: #110F1A;
+      --bg-raised: #1A1726;
+      --bg-card: #241F2E;
+      --bg-border: #2E2A3D;
+      --text-primary: #F5F0EB;
+      --text-secondary: #C4BFB6;
+      --text-dim: #847E74;
+      --text-faint: #6A6459;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 40px;
+      background: rgba(17, 15, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--bg-border);
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--text-primary);
+      font-weight: 700; font-size: 16px;
+    }
+    .nav-brand img { width: 28px; height: 28px; border-radius: 6px; }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      color: var(--text-dim); text-decoration: none; font-size: 14px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-cta {
+      background: var(--accent) !important; color: var(--bg) !important;
+      padding: 8px 20px; border-radius: 6px; font-weight: 600; font-size: 13px;
+    }
+    .nav-cta:hover { background: var(--accent-hover) !important; }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 30% 20%, rgba(255, 107, 53, 0.06), transparent),
+        radial-gradient(ellipse 500px 350px at 70% 60%, rgba(232, 69, 60, 0.04), transparent);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px; border-radius: 20px;
+      background: rgba(255, 107, 53, 0.1);
+      border: 1px solid rgba(255, 107, 53, 0.2);
+      color: var(--accent); font-size: 13px; font-weight: 500;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 18px; color: var(--text-secondary);
+      max-width: 560px; margin: 0 auto 40px;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      background: var(--accent); color: var(--bg);
+      padding: 14px 32px; border-radius: 8px;
+      font-size: 16px; font-weight: 700;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .btn-secondary {
+      background: transparent; color: var(--text-secondary);
+      padding: 14px 32px; border-radius: 8px;
+      font-size: 16px; font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--bg-border);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--text-dim); color: var(--text-primary); }
+
+    /* ── Screenshot ── */
+    .screenshot {
+      max-width: 1000px; width: 90%; margin: 0 auto;
+      position: relative; z-index: 1;
+    }
+    .screenshot-placeholder {
+      aspect-ratio: 16/9;
+      background: var(--bg-raised);
+      border: 1px solid var(--bg-border);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-faint); font-size: 14px; font-style: italic;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    }
+    .screenshot img {
+      width: 100%; border-radius: 12px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+    }
+
+    /* ── Features ── */
+    .features {
+      padding: 100px 24px;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .features h2 {
+      text-align: center; font-size: 32px; font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .features .subtitle {
+      text-align: center; color: var(--text-dim); font-size: 16px;
+      margin-bottom: 60px;
+    }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg-raised);
+      border: 1px solid var(--bg-border);
+      border-radius: 12px; padding: 32px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover { border-color: var(--bg-card); transform: translateY(-2px); }
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
+    .feature-card p { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
+
+    /* ── How it works ── */
+    .how-it-works {
+      padding: 80px 24px;
+      max-width: 800px; margin: 0 auto;
+    }
+    .how-it-works h2 {
+      text-align: center; font-size: 32px; font-weight: 700;
+      margin-bottom: 48px;
+    }
+    .steps { display: flex; flex-direction: column; gap: 32px; }
+    .step {
+      display: flex; gap: 20px; align-items: flex-start;
+    }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255, 107, 53, 0.15);
+      color: var(--accent); font-weight: 700; font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .step p { font-size: 14px; color: var(--text-dim); }
+
+    /* ── Platforms ── */
+    .platforms {
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .platforms h2 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+    .platforms .subtitle {
+      color: var(--text-dim); font-size: 16px; margin-bottom: 40px;
+    }
+    .platform-buttons {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    }
+    .platform-btn {
+      background: var(--bg-raised);
+      border: 1px solid var(--bg-border);
+      border-radius: 10px; padding: 16px 28px;
+      text-decoration: none; color: var(--text-primary);
+      font-size: 15px; font-weight: 500;
+      display: flex; align-items: center; gap: 10px;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .platform-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .platform-btn svg { width: 20px; height: 20px; fill: var(--text-secondary); }
+
+    /* ── Footer ── */
+    footer {
+      padding: 40px 24px;
+      text-align: center;
+      border-top: 1px solid var(--bg-border);
+      color: var(--text-faint); font-size: 13px;
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      nav { padding: 12px 20px; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .hero { padding: 100px 20px 60px; }
+      .hero p { font-size: 16px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#" class="nav-brand">
+      <img src="icon.svg" alt="Confusion Flow">
+      Confusion Flow
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#download" class="nav-cta">Download</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <span class="hero-badge">v0.1.0 — now available for Windows, macOS, and Linux</span>
+    <h1>Build data pipelines<br><span class="gradient">visually.</span></h1>
+    <p>Drag, connect, and execute Python workflows without writing boilerplate. Full pandas power, zero friction.</p>
+    <div class="hero-actions">
+      <a href="https://github.com/ogencer/confusion-flow-releases/releases/latest" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </a>
+      <a href="#features" class="btn-secondary">Learn more</a>
+    </div>
+
+    <div style="height: 60px;"></div>
+
+    <div class="screenshot">
+      <!-- Replace this div with: <img src="screenshot.png" alt="Confusion Flow screenshot"> -->
+      <div class="screenshot-placeholder">App screenshot — coming soon</div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <h2>Everything you need for data work</h2>
+    <p class="subtitle">A visual ETL tool that generates real Python code under the hood.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(255,107,53,0.12); color: var(--accent);">&#9638;</div>
+        <h3>Visual Node Editor</h3>
+        <p>Drag tools from the sidebar, connect them with edges, and watch your pipeline take shape. No boilerplate, no guessing what connects to what.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(247,201,72,0.12); color: var(--gold);">&#9655;</div>
+        <h3>One-Click Execution</h3>
+        <p>Run your entire pipeline or just a specific node. See results instantly in the built-in data preview — tables, scalars, and errors, all inline.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(232,69,60,0.12); color: var(--red);">&#10100;</div>
+        <h3>Real Python Code</h3>
+        <p>Every node generates actual pandas code. No proprietary format — inspect it, learn from it, or export it. What you see is what Python runs.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(255,179,71,0.12); color: var(--light-orange);">&#8644;</div>
+        <h3>Extensible Tool Libraries</h3>
+        <p>40+ built-in transforms — filter, join, group, pivot, and more. Import community libraries or create your own with a simple JSON format.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(255,140,90,0.12); color: var(--salmon);">&#9881;</div>
+        <h3>Bundled Python Runtime</h3>
+        <p>No Python installation required. Confusion Flow ships with Python 3.13 and auto-installs missing packages at runtime via uv.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(247,201,72,0.12); color: var(--gold);">&#10038;</div>
+        <h3>AI Tool Integration</h3>
+        <p>Built-in MCP server lets Claude and other AI tools interact with your pipelines directly. Connect via Claude Desktop or Claude Code.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works" id="how-it-works">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Drag tools onto the canvas</h3>
+          <p>Choose from transforms like Read CSV, Filter, Join, Group By, and more from the sidebar. Each becomes a node on your canvas.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>Connect and configure</h3>
+          <p>Draw edges between nodes to define your data flow. Click any node to configure its parameters — column names, conditions, formulas.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>Execute and explore</h3>
+          <p>Hit Run and watch your pipeline execute node by node. Click any node to preview its output data in a built-in table view.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <h3>Save, share, iterate</h3>
+          <p>Save your workflow as a JSON file. Re-open it later, share it with teammates, or load one of the included sample workflows to learn.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="platforms" id="download">
+    <h2>Download Confusion Flow</h2>
+    <p class="subtitle">Available for all major platforms. Free and open to use.</p>
+
+    <div class="platform-buttons">
+      <a href="https://github.com/ogencer/confusion-flow-releases/releases/latest" class="platform-btn">
+        <svg viewBox="0 0 24 24"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+        Windows
+      </a>
+      <a href="https://github.com/ogencer/confusion-flow-releases/releases/latest" class="platform-btn">
+        <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        macOS
+      </a>
+      <a href="https://github.com/ogencer/confusion-flow-releases/releases/latest" class="platform-btn">
+        <svg viewBox="0 0 24 24"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a11.966 11.966 0 0 0 .687 2.283c.346.87.773 1.717 1.37 2.569 2.382 3.402 5.293 3.768 7.598 3.386 1.064-.176 1.705-.812 2.248-1.312.579-.531 1.143-.869 2.016-.871.87.002 1.438.34 2.016.871.543.5 1.184 1.136 2.248 1.312 2.305.382 5.216.016 7.598-3.386.597-.852 1.024-1.699 1.37-2.569.347-.885.557-1.7.687-2.283.123-.805-.009-1.657-.287-2.489-.589-1.771-1.831-3.47-2.716-4.521-.75-1.067-.974-1.928-1.05-3.02-.065-1.491 1.056-5.965-3.17-6.298A5.21 5.21 0 0 0 12.504 0z"/></svg>
+        Linux
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>Built by <a href="https://github.com/ogencer">ogencer</a> &middot; <a href="https://github.com/ogencer/confusion-flow-releases/releases">Releases</a></p>
+  </footer>
+
+</body>
+</html>
