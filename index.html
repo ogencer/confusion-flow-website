@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,13 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --orange: #FF6B35;
@@ -24,7 +31,9 @@
       --rule: #D4C9B8;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: 'Space Mono', monospace;
@@ -34,21 +43,34 @@
       cursor: default;
     }
 
-    a { color: var(--orange); }
-    a:hover { color: var(--red); }
+    a {
+      color: var(--orange);
+    }
+
+    a:hover {
+      color: var(--red);
+    }
 
     /* ── Grain ── */
     body::after {
       content: '';
-      position: fixed; inset: 0;
+      position: fixed;
+      inset: 0;
       background: url("data:image/svg+xml,%3Csvg width='6' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 9999;
+      pointer-events: none;
+      z-index: 9999;
     }
 
     /* ── Top bar ── */
     .topbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; justify-content: space-between; align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 0 24px;
       height: 40px;
       background: var(--ink);
@@ -57,57 +79,98 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
+
     .topbar a {
-      color: var(--cream); text-decoration: none;
-      padding: 0 12px; height: 40px;
-      display: inline-flex; align-items: center;
+      color: var(--cream);
+      text-decoration: none;
+      padding: 0 12px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
       transition: background 0.1s;
     }
-    .topbar a:hover { background: rgba(255,255,255,0.08); color: var(--cream); }
+
+    .topbar a:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--cream);
+    }
+
     .topbar-brand {
-      display: flex; align-items: center; gap: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-weight: 700;
     }
-    .topbar-brand img { width: 18px; height: 18px; image-rendering: pixelated; }
+
+    .topbar-brand img {
+      width: 18px;
+      height: 18px;
+      image-rendering: pixelated;
+    }
+
     .topbar-dl {
       background: var(--orange) !important;
       font-weight: 700;
     }
-    .topbar-dl:hover { background: var(--red) !important; }
+
+    .topbar-dl:hover {
+      background: var(--red) !important;
+    }
 
     /* ══════════════════════════════════════════
        HERO — the logo lines ARE the background
        ══════════════════════════════════════════ */
     .hero {
       min-height: 100vh;
-      display: flex; flex-direction: column;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      padding: 80px 10vw 60px;
+      gap: 48px;
+      padding: 80px 2vw 60px 5vw;
       position: relative;
       overflow: hidden;
     }
 
     .hero-canvas {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
       pointer-events: none;
     }
 
     .hero-content {
-      position: relative; z-index: 1;
-      max-width: 700px;
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      flex-shrink: 0;
     }
+
+    .hero-shot {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      min-width: 0;
+      max-width: 780px;
+    }
+
+    .hero-shot .window {
+      transform: rotate(0.5deg);
+    }
+
     .hero h1 {
       font-size: clamp(32px, 5.5vw, 60px);
       font-weight: 700;
       line-height: 1.1;
       margin-bottom: 24px;
     }
+
     .hero h1 em {
       font-style: italic;
       color: var(--orange);
     }
+
     .hero-body {
       font-size: 15px;
       line-height: 1.8;
@@ -115,13 +178,19 @@
       max-width: 480px;
       margin-bottom: 36px;
     }
-    .hero-body strong { color: var(--ink); font-weight: 700; }
+
+    .hero-body strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
     .hero-cta {
       display: inline-block;
       background: var(--orange);
       color: var(--cream);
       text-decoration: none;
-      font-size: 13px; font-weight: 700;
+      font-size: 13px;
+      font-weight: 700;
       padding: 14px 32px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -129,11 +198,13 @@
       box-shadow: 5px 5px 0 var(--ink);
       transition: all 0.1s;
     }
+
     .hero-cta:hover {
       box-shadow: 2px 2px 0 var(--ink);
       transform: translate(3px, 3px);
       color: var(--cream);
     }
+
     .hero-version {
       margin-top: 16px;
       font-size: 11px;
@@ -149,6 +220,7 @@
       position: relative;
       z-index: 1;
     }
+
     .window {
       border: 3px solid var(--ink);
       box-shadow: 8px 8px 0 var(--ink);
@@ -157,28 +229,47 @@
       max-width: 1100px;
       margin: 0 auto;
     }
+
     .window-bar {
-      display: flex; align-items: center; gap: 7px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
       padding: 10px 14px;
       background: #2E2820;
     }
-    .wd { width: 11px; height: 11px; }
-    .wd-r { background: var(--red); }
-    .wd-y { background: var(--gold); }
-    .wd-g { background: #4caf50; }
+
+    .wd {
+      width: 11px;
+      height: 11px;
+    }
+
+    .wd-r {
+      background: var(--red);
+    }
+
+    .wd-y {
+      background: var(--gold);
+    }
+
+    .wd-g {
+      background: #4caf50;
+    }
+
     .window-label {
-      font-size: 10px; color: rgba(255,255,255,0.35);
-      margin-left: 10px; letter-spacing: 0.08em;
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.35);
+      margin-left: 10px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
+
     .window-inner {
-      aspect-ratio: 16/10;
       background: #110F1A;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--fade); font-size: 13px; font-style: italic;
+      line-height: 0;
     }
+
     .window-inner img {
-      width: 100%; height: 100%; object-fit: cover;
+      width: 100%;
       display: block;
     }
 
@@ -192,6 +283,7 @@
       grid-template-columns: 280px 1fr;
       gap: 60px;
     }
+
     .what-label {
       font-size: 11px;
       text-transform: uppercase;
@@ -199,13 +291,16 @@
       color: var(--orange);
       padding-top: 6px;
     }
+
     .what-body {
       font-size: 16px;
       line-height: 2;
       color: var(--ink);
-      max-width: 560px;
     }
-    .what-body .dim { color: var(--fade); }
+
+    .what-body .dim {
+      color: var(--fade);
+    }
 
     /* ══════════════════════════════════════════
        THE FLOW — ASCII-style pipeline demo
@@ -216,6 +311,7 @@
       background: var(--paper);
       overflow-x: auto;
     }
+
     .flow-ascii {
       font-size: 13px;
       line-height: 1.5;
@@ -223,17 +319,21 @@
       color: var(--ink);
       max-width: 800px;
     }
+
     .flow-ascii .node {
       color: var(--orange);
       font-weight: 700;
     }
+
     .flow-ascii .edge {
       color: var(--rule);
     }
+
     .flow-ascii .data {
       color: var(--fade);
       font-style: italic;
     }
+
     .flow-caption {
       margin-top: 24px;
       font-size: 12px;
@@ -244,10 +344,6 @@
     /* ══════════════════════════════════════════
        FEATURES — newspaper column style
        ══════════════════════════════════════════ */
-    .features {
-      padding: 80px 10vw;
-      border-top: 2px solid var(--ink);
-    }
     .features-head {
       font-size: 11px;
       text-transform: uppercase;
@@ -255,43 +351,28 @@
       color: var(--orange);
       margin-bottom: 32px;
     }
+
     .features-cols {
       columns: 2;
       column-gap: 48px;
       column-rule: 1px dashed var(--rule);
     }
+
     .feat {
       break-inside: avoid;
       margin-bottom: 28px;
     }
+
     .feat h3 {
       font-size: 14px;
       font-weight: 700;
       margin-bottom: 4px;
     }
+
     .feat p {
       font-size: 13px;
       line-height: 1.7;
       color: var(--fade);
-    }
-
-    /* ══════════════════════════════════════════
-       SECOND PRODUCT SHOT — different angle
-       ══════════════════════════════════════════ */
-    .product-shot-2 {
-      padding: 60px 5vw;
-      border-top: 2px solid var(--ink);
-      background: var(--paper);
-    }
-    .product-shot-2 .window {
-      transform: rotate(0.3deg);
-    }
-    .shot-caption {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 12px;
-      color: var(--fade);
-      font-style: italic;
     }
 
     /* ══════════════════════════════════════════
@@ -301,6 +382,7 @@
       padding: 80px 10vw;
       border-top: 2px solid var(--ink);
     }
+
     .platforms-head {
       font-size: 11px;
       text-transform: uppercase;
@@ -308,10 +390,12 @@
       color: var(--orange);
       margin-bottom: 10px;
     }
+
     .platforms h2 {
       font-size: 24px;
       margin-bottom: 8px;
     }
+
     .platforms-sub {
       font-size: 13px;
       color: var(--fade);
@@ -319,14 +403,21 @@
       max-width: 440px;
       line-height: 1.7;
     }
+
     .dl-row {
-      display: flex; gap: 12px; flex-wrap: wrap;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
     }
+
     .dl-btn {
-      display: inline-flex; align-items: center; gap: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       text-decoration: none;
       font-family: 'Space Mono', monospace;
-      font-size: 12px; font-weight: 700;
+      font-size: 12px;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       padding: 12px 24px;
@@ -336,12 +427,18 @@
       box-shadow: 3px 3px 0 var(--ink);
       transition: all 0.1s;
     }
+
     .dl-btn:hover {
       box-shadow: 1px 1px 0 var(--ink);
       transform: translate(2px, 2px);
       color: var(--ink);
     }
-    .dl-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+    .dl-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
 
     /* ══════════════════════════════════════════
        FOOTER — barely there
@@ -354,26 +451,317 @@
       display: flex;
       justify-content: space-between;
     }
-    footer a { color: var(--fade); text-decoration: none; }
-    footer a:hover { color: var(--orange); }
+
+    footer a {
+      color: var(--fade);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--orange);
+    }
+
+    /* ══════════════════════════════════════════
+       TABBED SHOWCASE
+       ══════════════════════════════════════════ */
+    .showcase {
+      padding: 80px 5vw;
+      border-top: 2px solid var(--ink);
+      background: var(--paper);
+    }
+
+    .showcase-head {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--orange);
+      margin-bottom: 24px;
+      padding: 0 5vw;
+    }
+
+    .showcase-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: 32px;
+      overflow-x: auto;
+      padding: 0 5vw;
+    }
+
+    .showcase-tab {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 12px 20px;
+      border: none;
+      background: none;
+      color: var(--fade);
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .showcase-tab:hover {
+      color: var(--ink);
+    }
+
+    .showcase-tab.active {
+      color: var(--orange);
+      border-bottom-color: var(--orange);
+    }
+
+    .showcase-panel {
+      display: none;
+    }
+
+    .showcase-panel.active {
+      display: block;
+    }
+
+    .showcase-desc {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--fade);
+      max-width: 560px;
+      margin-bottom: 24px;
+      padding: 0 5vw;
+    }
+
+    .showcase-desc strong {
+      color: var(--ink);
+    }
+
+    .showcase .window {
+      max-width: 1100px;
+      margin: 0 auto;
+      transform: none;
+    }
+
+    .showcase-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .showcase-pair .window {
+      transform: none;
+    }
+
+    /* ══════════════════════════════════════════
+       AI CAROUSEL
+       ══════════════════════════════════════════ */
+    .ai-section {
+      padding: 80px 5vw;
+      border-top: 2px solid var(--ink);
+    }
+
+    .ai-header {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 60px;
+      margin-bottom: 32px;
+      padding: 0 5vw;
+    }
+
+    .ai-desc {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--fade);
+      max-width: 500px;
+    }
+
+    .ai-desc strong {
+      color: var(--ink);
+    }
+
+    .carousel {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .carousel-track {
+      position: relative;
+    }
+
+    .carousel-slide {
+      display: none;
+    }
+
+    .carousel-slide.active {
+      display: block;
+    }
+
+    .carousel-slide .window {
+      transform: none;
+      max-width: 100%;
+    }
+
+    .carousel-caption {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--fade);
+      font-style: italic;
+      min-height: 18px;
+    }
+
+    .carousel-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .carousel-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--ink);
+      background: none;
+      color: var(--ink);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.1s;
+    }
+
+    .carousel-btn:hover {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border: 2px solid var(--ink);
+      background: none;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .carousel-dot.active {
+      background: var(--orange);
+      border-color: var(--orange);
+    }
 
     /* ── Mobile ── */
     @media (max-width: 768px) {
-      .hero { padding: 80px 24px 40px; }
-      .hero h1 { font-size: 28px; }
-      .product-shot, .product-shot-2 { padding: 0 16px 60px; }
-      .what { grid-template-columns: 1fr; gap: 16px; padding: 48px 24px; }
-      .flow-demo { padding: 40px 24px; }
-      .flow-ascii { font-size: 11px; }
-      .features { padding: 48px 24px; }
-      .features-cols { columns: 1; }
-      .platforms { padding: 48px 24px; }
-      footer { flex-direction: column; gap: 8px; padding: 24px; }
-      .window { transform: none; }
-      .product-shot-2 .window { transform: none; }
+      .hero {
+        padding: 80px 24px 40px;
+      }
+
+      .hero {
+        flex-direction: column;
+        padding: 80px 24px 40px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .hero-content {
+        max-width: 100%;
+      }
+
+      .hero-shot {
+        max-width: 100%;
+      }
+
+      .what,
+      .shot-desc {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+
+      .what {
+        padding: 48px 24px;
+      }
+
+      .flow-demo {
+        padding: 40px 24px;
+      }
+
+      .flow-ascii {
+        font-size: 11px;
+      }
+
+      .features {
+        padding: 48px 24px;
+      }
+
+      .features-cols {
+        columns: 1;
+      }
+
+      .platforms {
+        padding: 48px 24px;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 8px;
+        padding: 24px;
+      }
+
+      .window {
+        transform: none;
+      }
+
+      .showcase {
+        padding: 48px 16px;
+      }
+
+      .showcase-head {
+        padding: 0 8px;
+      }
+
+      .showcase-tabs {
+        padding: 0 8px;
+      }
+
+      .showcase-tab {
+        padding: 10px 12px;
+        font-size: 10px;
+      }
+
+      .showcase-desc {
+        padding: 0 8px;
+      }
+
+      .showcase-pair {
+        grid-template-columns: 1fr;
+      }
+
+      .ai-section {
+        padding: 48px 16px;
+      }
+
+      .ai-header {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        padding: 0 8px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- ═══ Top bar ═══ -->
@@ -397,110 +785,286 @@
     <div class="hero-content">
       <h1>Your data is confusing.<br>We'll <em>sort it out.</em></h1>
       <p class="hero-body">
-        Confusion Flow is a <strong>visual pipeline builder</strong> that
-        turns your tangled data into clean Python code.
-        Drag nodes, connect edges, hit run.
-        <strong>No boilerplate. No notebooks. No ceremony.</strong>
+        <strong>Confusion Flow</strong> is a <strong>visual pipeline builder</strong> that
+        helps you wrangle data.
+        Drag nodes, connect edges, and hit run.
       </p>
       <a href="https://github.com/ogencer/confusion-flow-releases/releases/latest" class="hero-cta">Download Free</a>
       <div class="hero-version">v0.1.0 &mdash; Windows, macOS, Linux</div>
     </div>
-  </section>
-
-  <!-- ═══ Product shot 1 ═══ -->
-  <div class="product-shot">
-    <div class="window">
-      <div class="window-bar">
-        <div class="wd wd-r"></div>
-        <div class="wd wd-y"></div>
-        <div class="wd wd-g"></div>
-        <span class="window-label">confusion flow &mdash; airline passengers analysis</span>
-      </div>
-      <div class="window-inner">
-        <!-- Replace with: <img src="screenshot-main.png" alt="Confusion Flow editor"> -->
-        [ main editor screenshot ]
+    <div class="hero-shot">
+      <div class="window">
+        <div class="window-bar">
+          <div class="wd wd-r"></div>
+          <div class="wd wd-y"></div>
+          <div class="wd wd-g"></div>
+          <span class="window-label">confusion flow &mdash; gdp data pipeline</span>
+        </div>
+        <div class="window-inner">
+          <img src="screenshot-main.jpg" alt="Confusion Flow editor showing a GDP data pipeline with variables, nodes, and data preview">
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ═══ What is it ═══ -->
+  <!-- ═══ Tabbed Showcase ═══ -->
+  <section class="showcase" id="showcase">
+    <div class="showcase-head">See it in action</div>
+    <div class="showcase-tabs">
+      <button class="showcase-tab active" data-tab="ai">AI-powered</button>
+      <button class="showcase-tab" data-tab="build">Build</button>
+      <button class="showcase-tab" data-tab="code">Code</button>
+      <button class="showcase-tab" data-tab="execute">Execute</button>
+      <button class="showcase-tab" data-tab="control">Control</button>
+      <button class="showcase-tab" data-tab="variables">Variables</button>
+      <button class="showcase-tab" data-tab="libraries">Libraries</button>
+    </div>
+
+    <div class="showcase-panel active" data-panel="ai">
+      <p class="showcase-desc">
+        Connect to Claude Desktop or Claude Code with one click.
+        Your AI can <strong>build, modify, and execute</strong> your pipelines through the built-in MCP server.
+      </p>
+      <div class="carousel" id="ai-carousel">
+        <div class="carousel-track">
+          <div class="carousel-slide active"
+            data-caption="Register Claude Desktop or Claude Code with one click. No config files needed.">
+            <div class="window">
+              <div class="window-bar">
+                <div class="wd wd-r"></div>
+                <div class="wd wd-y"></div>
+                <div class="wd wd-g"></div>
+                <span class="window-label">confusion flow &mdash; connect to ai tools</span>
+              </div>
+              <div class="window-inner">
+                <img src="assets/ConnectToAITools.JPG" alt="Connect to AI Tools dialog showing Claude Desktop and Claude Code registered">
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide"
+            data-caption="&ldquo;Analyze the iris data from GitHub&rdquo; &mdash; Claude starts building the workflow.">
+            <div class="window">
+              <div class="window-bar">
+                <div class="wd wd-r"></div>
+                <div class="wd wd-y"></div>
+                <div class="wd wd-g"></div>
+                <span class="window-label">claude desktop &mdash; building a workflow</span>
+              </div>
+              <div class="window-inner">
+                <img src="assets/claude-pg1.JPG" alt="Claude Desktop building an iris data analysis workflow step by step via MCP">
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide"
+            data-caption="Claude executes the workflow and returns a complete dataset analysis.">
+            <div class="window">
+              <div class="window-bar">
+                <div class="wd wd-r"></div>
+                <div class="wd wd-y"></div>
+                <div class="wd wd-g"></div>
+                <span class="window-label">claude desktop &mdash; analysis complete</span>
+              </div>
+              <div class="window-inner">
+                <img src="assets/claude-pg2.JPG" alt="Claude Desktop showing completed iris dataset analysis with key findings">
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide"
+            data-caption="The resulting workflow in Confusion Flow &mdash; fully functional, ready to modify.">
+            <div class="window">
+              <div class="window-bar">
+                <div class="wd wd-r"></div>
+                <div class="wd wd-y"></div>
+                <div class="wd wd-g"></div>
+                <span class="window-label">confusion flow &mdash; workflow built by claude</span>
+              </div>
+              <div class="window-inner">
+                <img src="assets/claude-output.JPG" alt="Confusion Flow showing the iris analysis workflow Claude built with nodes and data preview">
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="carousel-caption"></p>
+        <div class="carousel-nav">
+          <button class="carousel-btn" data-dir="prev">&larr;</button>
+          <div class="carousel-dots">
+            <button class="carousel-dot active" data-index="0"></button>
+            <button class="carousel-dot" data-index="1"></button>
+            <button class="carousel-dot" data-index="2"></button>
+            <button class="carousel-dot" data-index="3"></button>
+          </div>
+          <button class="carousel-btn" data-dir="next">&rarr;</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase-panel" data-panel="build">
+      <p class="showcase-desc">
+        Design complete data pipelines on a visual canvas.
+        Each node is a transform. Each edge is a data flow.
+        <strong>Connect them like building blocks</strong> &mdash; the app handles execution order automatically.
+      </p>
+      <div class="window">
+        <div class="window-bar">
+          <div class="wd wd-r"></div>
+          <div class="wd wd-y"></div>
+          <div class="wd wd-g"></div>
+          <span class="window-label">confusion flow &mdash; complete data pipeline</span>
+        </div>
+        <div class="window-inner">
+          <img src="assets/FullFlow.JPG" alt="Complete GDP data pipeline with connected nodes for loading, filtering, grouping, and saving data">
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase-panel" data-panel="code">
+      <p class="showcase-desc">
+        Every node generates Python you can read, copy, and export.
+        Not a black box. Not pseudocode. <strong>Actual Python</strong> that runs in a Jupyter kernel inside the app.
+      </p>
+      <div class="window">
+        <div class="window-bar">
+          <div class="wd wd-r"></div>
+          <div class="wd wd-y"></div>
+          <div class="wd wd-g"></div>
+          <span class="window-label">confusion flow &mdash; generated python code</span>
+        </div>
+        <div class="window-inner">
+          <img src="assets/GeneratedPythonCode.JPG" alt="Generated Python code from the visual pipeline">
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase-panel" data-panel="execute">
+      <p class="showcase-desc">
+        Hit <strong>Run All</strong> and watch every node execute in order.
+        Data previews appear inline &mdash; tables, row counts, and column types &mdash; right below the canvas.
+      </p>
+      <div class="window">
+        <div class="window-bar">
+          <div class="wd wd-r"></div>
+          <div class="wd wd-y"></div>
+          <div class="wd wd-g"></div>
+          <span class="window-label">confusion flow &mdash; execution results</span>
+        </div>
+        <div class="window-inner">
+          <img src="assets/FlowAfterRun.JPG" alt="Pipeline after execution showing inline data preview with continent and life expectancy results">
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase-panel" data-panel="control">
+      <p class="showcase-desc">
+        Right-click any node to <strong>run just that node</strong>, run everything up to it, view its output data, or
+        clear results.
+        Full granular control over your pipeline.
+      </p>
+      <div class="window">
+        <div class="window-bar">
+          <div class="wd wd-r"></div>
+          <div class="wd wd-y"></div>
+          <div class="wd wd-g"></div>
+          <span class="window-label">confusion flow &mdash; selective node execution</span>
+        </div>
+        <div class="window-inner">
+          <img src="assets/SelectiveNodeRunning.JPG" alt="Right-click context menu with Run this node, Run up to here, View data, Clear results">
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase-panel" data-panel="variables">
+      <p class="showcase-desc">
+        Define workflow variables and reference them anywhere with <strong>@{name} syntax</strong>.
+        Change a file path or threshold once &mdash; every node that uses it updates automatically.
+      </p>
+      <div class="showcase-pair">
+        <div class="window">
+          <div class="window-bar">
+            <div class="wd wd-r"></div>
+            <div class="wd wd-y"></div>
+            <div class="wd wd-g"></div>
+            <span class="window-label">define a variable</span>
+          </div>
+          <div class="window-inner">
+            <img src="assets/InputVariable.JPG" alt="Creating a user variable InputFile with a URL value in the Variables panel">
+          </div>
+        </div>
+        <div class="window">
+          <div class="window-bar">
+            <div class="wd wd-r"></div>
+            <div class="wd wd-y"></div>
+            <div class="wd wd-g"></div>
+            <span class="window-label">reference with @{name}</span>
+          </div>
+          <div class="window-inner">
+            <img src="assets/InputVariableUsage.JPG" alt="Using @{InputFile} variable in node parameters with autocomplete dropdown">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="showcase-panel" data-panel="libraries">
+      <p class="showcase-desc">
+        Manage tool libraries with a built-in package manager.
+        <strong>120+ built-in tools</strong> across pandas, scipy, and analytics.
+        Import community libraries from a URL or write your own.
+      </p>
+      <div class="window">
+        <div class="window-bar">
+          <div class="wd wd-r"></div>
+          <div class="wd wd-y"></div>
+          <div class="wd wd-g"></div>
+          <span class="window-label">confusion flow &mdash; library manager</span>
+        </div>
+        <div class="window-inner">
+          <img src="assets/ImportLibrary.JPG" alt="Library Manager showing Data Essentials with 92 tools, Statistics Essentials, Analytics Essentials, and URL import">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ What you get ═══ -->
   <section class="what" id="what">
-    <div class="what-label">What is it</div>
+    <div class="what-label">What you get</div>
     <div class="what-body">
-      You know that thing where you open a Jupyter notebook,
-      write the same boilerplate, then spend 40 minutes
-      wrangling merge keys and column renames?
+      A visual pipeline builder that turns confusing data into a clean and legible flow.
       <br><br>
-      <span class="dim">
-        Confusion Flow replaces that with a canvas.
-        Each operation is a node. Each connection is a data flow.
-        You configure with dropdowns instead of docs.
-        And underneath, it writes the Python code for you &mdash;
-        real code you can read, not some proprietary blob.
-      </span>
-    </div>
-  </section>
-
-  <!-- ═══ ASCII pipeline demo ═══ -->
-  <div class="flow-demo">
-<pre class="flow-ascii"><span class="node">[ Read CSV ]</span> <span class="edge">───────────></span> <span class="node">[ Filter ]</span> <span class="edge">──────></span> <span class="node">[ Group By ]</span>
-<span class="data">  passengers.csv            age > 25              by: class</span>          <span class="edge">│</span>
-                                                                      <span class="edge">│</span>
-                            <span class="node">[ Write CSV ]</span> <span class="edge"><────────</span> <span class="node">[ Sort ]</span> <span class="edge"><──┘</span>
-                            <span class="data">  output.csv              desc: mean_fare</span></pre>
-    <p class="flow-caption">
-      This is what a workflow looks like. Five nodes, four edges, zero lines of code written by hand.
-      Hit run and each node executes in order. Click any node to see its output.
-    </p>
-  </div>
-
-  <!-- ═══ Features ═══ -->
-  <section class="features" id="features">
-    <div class="features-head">What you get</div>
-    <div class="features-cols">
-      <div class="feat">
-        <h3>40+ transforms</h3>
-        <p>Filter, join, group, pivot, melt, rename, formula, sample, unique, fill NA, type cast &mdash; all the operations you actually use, as drag-and-drop nodes.</p>
-      </div>
-      <div class="feat">
-        <h3>Bundled Python 3.13</h3>
-        <p>Ships with a full Python runtime. No install, no PATH headaches, no "works on my machine." Missing a package? It auto-installs via uv in seconds.</p>
-      </div>
-      <div class="feat">
-        <h3>Real code output</h3>
-        <p>Every node generates Python code you can inspect. Not pseudocode. Not a DSL. Actual Python that runs in a Jupyter kernel inside the app.</p>
-      </div>
-      <div class="feat">
-        <h3>Run all or run one</h3>
-        <p>Execute the full pipeline, run up to a specific node, or right-click and run just one. Data preview shows tables, scalars, and errors inline.</p>
-      </div>
-      <div class="feat">
-        <h3>Extensible libraries</h3>
-        <p>Import community tool libraries or write your own. One JSON file defines a new set of nodes with custom code generation.</p>
-      </div>
-      <div class="feat">
-        <h3>MCP server built in</h3>
-        <p>Connect to Claude Desktop or Claude Code. Your AI can read your pipelines, add nodes, execute workflows, and preview data &mdash; all through the built-in MCP server.</p>
+      <div class="features-cols">
+        <div class="feat">
+          <h3>40+ transforms</h3>
+          <p>Filter, join, group, pivot, melt, rename, formula, sample, unique, fill NA, type cast &mdash; all the
+            operations you actually use, as drag-and-drop nodes.</p>
+        </div>
+        <div class="feat">
+          <h3>Bundled Python</h3>
+          <p>Ships with a full Python 3.13 runtime. No version or path dependencies. Missing a
+            package?
+            Auto-installs in seconds.</p>
+        </div>
+        <div class="feat">
+          <h3>Real code output</h3>
+          <p>Every node generates Python code you can inspect. Deterministic and reproducible.</p>
+        </div>
+        <div class="feat">
+          <h3>Run all or run one</h3>
+          <p>Execute the full pipeline, run up to a specific node, or run just one node. Data preview shows
+            tables, scalars, and errors inline.</p>
+        </div>
+        <div class="feat">
+          <h3>Extensible libraries</h3>
+          <p>Import community tool libraries or write your own. One JSON file defines a new set of nodes with custom
+            code
+            generation.</p>
+        </div>
+        <div class="feat">
+          <h3>Built in MCP server </h3>
+          <p>Connect to Claude Desktop. Your AI can read your pipelines, add nodes, execute workflows,
+            and
+            preview data.</p>
+        </div>
       </div>
     </div>
   </section>
-
-  <!-- ═══ Product shot 2 ═══ -->
-  <div class="product-shot-2">
-    <div class="window">
-      <div class="window-bar">
-        <div class="wd wd-r"></div>
-        <div class="wd wd-y"></div>
-        <div class="wd wd-g"></div>
-        <span class="window-label">data preview &mdash; group by results</span>
-      </div>
-      <div class="window-inner">
-        <!-- Replace with: <img src="screenshot-preview.png" alt="Data preview"> -->
-        [ data preview screenshot ]
-      </div>
-    </div>
-    <p class="shot-caption">Click any node to see its output. No print statements, no cell re-runs.</p>
-  </div>
 
   <!-- ═══ Download ═══ -->
   <section class="platforms" id="download">
@@ -535,5 +1099,44 @@
   </footer>
 
   <script src="lines.js"></script>
+  <script>
+    /* Showcase tabs */
+    document.querySelectorAll('.showcase-tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.showcase-tab').forEach(function (t) { t.classList.remove('active'); });
+        document.querySelectorAll('.showcase-panel').forEach(function (p) { p.classList.remove('active'); });
+        tab.classList.add('active');
+        document.querySelector('[data-panel="' + tab.dataset.tab + '"]').classList.add('active');
+      });
+    });
+
+    /* AI Carousel */
+    (function () {
+      var carousel = document.getElementById('ai-carousel');
+      if (!carousel) return;
+      var slides = carousel.querySelectorAll('.carousel-slide');
+      var dots = carousel.querySelectorAll('.carousel-dot');
+      var caption = carousel.querySelector('.carousel-caption');
+      var current = 0;
+
+      function goTo(index) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = ((index % slides.length) + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+        caption.innerHTML = slides[current].dataset.caption;
+      }
+
+      caption.innerHTML = slides[0].dataset.caption;
+
+      carousel.querySelector('[data-dir="prev"]').addEventListener('click', function () { goTo(current - 1); });
+      carousel.querySelector('[data-dir="next"]').addEventListener('click', function () { goTo(current + 1); });
+      dots.forEach(function (dot) {
+        dot.addEventListener('click', function () { goTo(parseInt(dot.dataset.index)); });
+      });
+    })();
+  </script>
 </body>
+
 </html>
